@@ -78,7 +78,7 @@ Vertical Edge를 탐지할 수 있다면, Horizontal Edge도 탐지할 수 있�
 
 >  n_out = n_in - filter_size + 1 + 2 * padding_size
 
-이 때, padding_size = 1/2 (filter_size + 1)로 설정하면 input과 output의 size가 같게 된다.
+이 때, padding_size = 1/2 (filter_size - 1)로 설정하면 input과 output의 size가 같게 된다.
 
 
 
