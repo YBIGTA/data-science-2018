@@ -26,29 +26,35 @@ Classic Networks
 
 #### LeNet-5
 
+![img](/DLCV/assets/2018-01-20/1.png)
+
 거의 CNN의 창조와 같이 나온 네트워크라고 볼 수 있습니다. input size는 32x32x1이고 **average pooling** 과 마지막에 2개의 **FC**, 그리고 activation fuction으로 softmax function을 사용합니다. 기존에 있었던 단순 machine learning algorithm이나 FCNN보다 훨씬 좋은 성능을 보이게 됩니다. 학습해야할 총 파라미터의 수는 60k개입니다.
 
 #### AlexNet
 
-ImageNet 영상 데이터를 기반으로 2012년 **ILSVRC** (ImageNet Large Scale Visual Recognition Challenge)를 우승한 CNN Architecture입니다. 전체적으로 5개의 convolutional layers와 3개의 fully-connected layers로 구성되어 있으며 마지막은 마찬가지로 softmax 함수를 사용합니다. 227x227x3의 input size를 지원하고 1000개의 output이 가능합니다.(32x32x1을 지원했던 LeNet에 비해 더 고화질, 그리고 *컬러* 를 지원합니다.) 중간중간에는 average pooling을 사용했던 LeNet-5와 달리 max-pooling을 사용합니다. 파라미터 수는 60m개로 훨씬 더 많아졌기 때문에, 학습을 위해 2개의 GPU를 사용하는 구조라고 합니다.
+![img](/DLCV/assets/2018-01-20/2.png) ImageNet 영상 데이터를 기반으로 2012년 **ILSVRC** (ImageNet Large Scale Visual Recognition Challenge)를 우승한 CNN Architecture입니다. 전체적으로 5개의 convolutional layers와 3개의 fully-connected layers로 구성되어 있으며 마지막은 마찬가지로 softmax 함수를 사용합니다. 227x227x3의 input size를 지원하고 1000개의 output이 가능합니다.(32x32x1을 지원했던 LeNet에 비해 더 고화질, 그리고 *컬러* 를 지원합니다.) 중간중간에는 average pooling을 사용했던 LeNet-5와 달리 max-pooling을 사용합니다. 파라미터 수는 60m개로 훨씬 더 많아졌기 때문에, 학습을 위해 2개의 GPU를 사용하는 구조라고 합니다.
 
 성능향상을 위해 AlexNet에서는 ReLU, Overlapped pooling, response normalization, dropout, GPU를 사용하였습니다. - ReLU : 그 전까지는 대부분 sigmoid 함수를 활성화 함수로 사용하였지만, [Deep Sparse Rectifier Neural Network](http://proceedings.mlr.press/v15/glorot11a/glorot11a.pdf)에 따르면 신경망의 크기가 커질수록 학습속도에 치명적인 영향을 준다고 합니다. 이 때 ReLU를 사용함으로서, sigmoid나 tanh 함수에 비해 학습속도가 6배 정도 빨라지는 효과를 볼 수 있었다고 합니다. 추가로 vanishing gradient 문제를 해결하기도 했지만, 이 부분은 끝도 없으니깐 담에 지중이나 병규가 정리해줄껍니다. - Multiple GPU : 아예 네트워크 자체를 그 때 당시 나왔던 GPU의 사양(GTX 580, 3GB)에 맞추어 짰습니다. - Local Response Normalization : 강의에서는 지금 사용안하니깐 알 필요 없다고는 했지만, 간단히 살펴보면 genera - dropout : training 과정에서 random하게 특정 유닛들을 제외하여 overfitting을 개선하는 regularization 기법입니다.
 
 #### VGG-16
 
-VGG는 2014년 ILSVRC에서 GoogLeNet과 함께 높은 성능을 보여준 네트워크입니다. 제일 다른 것은 convolution filter와 s가 그 때 그 때 달랐던 이전 구조들과 달리, 3x3 filter와 s=1인 동일한 구조를 반복하며 쌓는다는 것입니다. VGGNet은 AlexNet과 마찬가지로 224x224의 이미지를 입력으로 받습니다. 단, 엄청 깊습니다. 약 138m개의 파라미터 수를 최적화해야 합니다. 이전에 사용하던 LRN은 성능 향상에 비해 너무 컴퓨팅 시간이 오래걸려서 사용 안했다고 합니다. 그렇다면, 이전의 다양한 filter를 사용한 것과 달리 3x3 filter를 반복하여 쌓으면 어떤 장점이 있을까요? 1. 여러 개의 ReLU non-linear를 사용할 수 있기 때문에, 더 discriminative(flexible)하다고 할 수 있습니다. 2. 학습해야 할 weight의 수가 많이 줄어듭니다. 하지만 VGG는 워낙 깊어서 결국 파라미터 수는 훨씬 증가하긴 합니다. 7x7 filter를 3x3 filter 3개로 대체할 수 있는데, 이때 parameter 수는 $$7^2$$(7x7 filter), $$3^3$$(triple 3x3 filter)로 줄어들게 됩니다.
+![img](/DLCV/assets/2018-01-20/3.png) VGG는 2014년 ILSVRC에서 GoogLeNet과 함께 높은 성능을 보여준 네트워크입니다. 제일 다른 것은 convolution filter와 s가 그 때 그 때 달랐던 이전 구조들과 달리, 3x3 filter와 s=1인 동일한 구조를 반복하며 쌓는다는 것입니다. VGGNet은 AlexNet과 마찬가지로 224x224의 이미지를 입력으로 받습니다. 단, 엄청 깊습니다. 약 138m개의 파라미터 수를 최적화해야 합니다. 이전에 사용하던 LRN은 성능 향상에 비해 너무 컴퓨팅 시간이 오래걸려서 사용 안했다고 합니다. 그렇다면, 이전의 다양한 filter를 사용한 것과 달리 3x3 filter를 반복하여 쌓으면 어떤 장점이 있을까요? 1. 여러 개의 ReLU non-linear를 사용할 수 있기 때문에, 더 discriminative(flexible)하다고 할 수 있습니다. 2. 학습해야 할 weight의 수가 많이 줄어듭니다. 하지만 VGG는 워낙 깊어서 결국 파라미터 수는 훨씬 증가하긴 합니다. 7x7 filter를 3x3 filter 3개로 대체할 수 있는데, 이때 parameter 수는 $$7^2$$(7x7 filter), $$3^3$$(triple 3x3 filter)로 줄어들게 됩니다.
 
 ---
 
 Network in Network, 1x1 convolutions
 ------------------------------------
 
-그림 5 CNN의 가장 큰 특징은 **filter** 라고 볼 수 있는데, 일반적으로 convolution layer와 pooling layer를 거치면서 진행됩니다. 하지만 이 때마저도 단순한 filter가 아닌 작은 network를 사용하자는 컨셉이 바로 Network In Network입니다. 2014년에 ILSVRC에서 이 논문을 발표하면서 자세히 설명한 것이 바로 1x1 convolutions인데요, 이게 저는 개인적으로 이해가 잘 안되서 여기저기 찾아봤는데, GoogLeNet에서는 차원을 축소하기 위해 다음과 같이 사용했다라는 정도까지밖에 이해가 안되더라구요. 물론 차원이 축소되면 연산량도 줄어들고 망은 더 깊어지는 장점이 있지만요.
+![img](/DLCV/assets/2018-01-20/4.png)
+
+CNN의 가장 큰 특징은 **filter** 라고 볼 수 있는데, 일반적으로 convolution layer와 pooling layer를 거치면서 진행됩니다. 하지만 이 때마저도 단순한 filter가 아닌 작은 network를 사용하자는 컨셉이 바로 Network In Network입니다. 2014년에 ILSVRC에서 이 논문을 발표하면서 자세히 설명한 것이 바로 1x1 convolutions인데요, 이게 저는 개인적으로 이해가 잘 안되서 여기저기 찾아봤는데, GoogLeNet에서는 차원을 축소하기 위해 다음과 같이 사용했다라는 정도까지밖에 이해가 안되더라구요. 물론 차원이 축소되면 연산량도 줄어들고 망은 더 깊어지는 장점이 있지만요.
 
 ---
 
 Inception Network, GoogLeNet
 ----------------------------
+
+![img](/DLCV/assets/2018-01-20/6.png) ![img](/DLCV/assets/2018-01-20/7.png)
 
 앞서 NIN(Network in Network)과 1x1 convolutions를 활용하여 만든 것이 바로 GoogLeNet입니다. 2014년 ILSVRC에서 VGGNet을 근소한 차이로 이기고 우승하였고, 둘다 망이 엄청 깊어졌지만 GoogLeNet은 Inception networks를 활용하며 이 문제를 해결합니다. 즉, 앞서 설명했었던 1x1 convolution을 적절히 사용하여 차원을 줄임으로서 망이 깊어졌을 때 연산량이 늘어나는 문제를 해결하였습니다. 그림 6 Inception Network는 영화 인셉션에서 유래된 말이 *맞습니다* . 다양한 feature를 추출하기 위해 여러 개의 convolution을 병렬적으로 활용했습니다. Convolution kernel과 feature map, 그리고 1x1 convolution을 활용하여 하나의 모듈을 만듬으로서 NIN 구조를 가질 수 있게 된 것입니다.
 
@@ -56,6 +62,8 @@ Inception Network, GoogLeNet
 
 Residual Networks, ResNet
 -------------------------
+
+![img](/DLCV/assets/2018-01-20/5.png)
 
 ResNet은 residual block을 활용한 residual network입니다. 2015년 ILSVRC에서 우승하였고, "망이 깊어지는 것"에 대한 두려움으로 시작했다고 합니다. $$H(x)$$ 가 아닌 $$H(x)-x$$를 학습시킴으로서 한칸씩 뛰며 지름길을 만드는 형식인거죠. 관점을 잠깐 바꾼 것이지만 입력의 작은 움직임을 쉽게 검출할 수 있게 되면서 나머지(residual)을 학습한다는 관점에서 residual block이 됩니다. 이렇게 하면 깊은 망도 쉽게 최적화가 가능하고, 늘어난 깊이로 인해 정확도를 개선할 수 있습니다. 맞아요 엄청어려워요..
 
