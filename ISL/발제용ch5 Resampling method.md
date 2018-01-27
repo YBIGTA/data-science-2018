@@ -119,7 +119,7 @@ Bootstrap은 실제로는 계산하기 어려운 추정량들의 불확실성(un
 
 > $$Var(\alpha X+(1-\alpha)Y)=\alpha^2Var(X)+(1-\alpha)^2Var(Y)+\alpha(1-\alpha)Cov(X,Y)=f(x)$$라 두고
 >
-> $$argmin_\alpha[\frac {d f(x)}{d\alpha}]$$하는 $$\alpha$$를 구하면 된다. 나머지는 단순 전개에 정리하고 식 넘기는것.
+> 위 식은 $$\alpha$$에 대해서 아래로 볼록한 convex 형태이므로, $$\frac {d f(\alpha)}{d\alpha}=0$$인 $$\alpha$$를 구하면 된다. 나머지는 단순 전개에 정리하고 식 넘기는것
 
 여기서 $$\sigma^2_X=Var(X)$$이고, $$\sigma_{XY}=Cov(X,Y)$$를 의미한다. 그러나 실제에선, 이를 최소화하는 $$\alpha$$의 식을 구성하는 $$Var(X),Var(Y),Cov(X,Y)$$를 알 수 없다. 따라서 이를 가지고 있는 자료를 통해 추정할 수 밖에 없다. 이 경우 식은 다음과 같이 된다.
 
