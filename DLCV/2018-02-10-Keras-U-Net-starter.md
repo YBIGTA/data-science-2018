@@ -11,6 +11,11 @@ https://www.kaggle.com/keegil/keras-u-net-starter-lb-0-277
 
 - [1. Data Science Bowl 2018?](#1-data-science-bowl-2018)
 - [2. U-Net](#2-u-net)
+- [3. 데이터 전처리](#3데이터-전처리)
+- [4. Evaluation Function](#4-evaluation-function)
+- [5. 네트워크 설계](#5-네트워크-설계)
+- [6. Make Prediction](#6-make-prediction)
+- [7. 결과 제출](#7-결과-제출)
 
 ---
 ## 1. Data Science Bowl 2018?
@@ -30,12 +35,7 @@ $$
 ---
 ## 2. U-Net
 먼저, U-Net에 대해 이론적으로 알아보고, 기본적인 전처리 과정과 이를 어떻게 적용하였는지 알아보도록 하겠습니다.
-Next we build our U-Net model, loosely based on [U-Net: Convolutional Networks for Biomedical Image Segmentation](https://arxiv.org/pdf/1505.04597.pdf) and very similar to [this repo](https://github.com/jocicmarko/ultrasound-nerve-segmentation) from the Kaggle Ultrasound Nerve Segmentation competition.
-
-[U-Net](https://arxiv.org/abs/1505.04597)
-
-![](https://lmb.informatik.uni-freiburg.de/people/ronneber/u-net/u-net-architecture.png)
-
+U-Net 모델은 U-Net: Convolutional Networks for Biomedical Image Segmentation을 참고했고요, 최근 Ultrasound Nerve Segmentation competition에서 이를 활용한 케라스 코드가 나와서 이를 참조했습니다. this repo
 
 
 ```python
@@ -141,8 +141,6 @@ print('Done!')
     
 
 
-Let's see if things look all right by drawing some random images and their associated masks.
-
 
 ```python
 # Check if training data looks all right
@@ -163,10 +161,8 @@ plt.show()
 
 ## 4. Evaluation Function
 
-Now we try to define the *mean average precision at different intersection over union (IoU) thresholds* metric in Keras. TensorFlow has a mean IoU metric, but it doesn't have any native support for the mean over multiple thresholds, so I tried to implement this. **I'm by no means certain that this implementation is correct, though!** Any assistance in verifying this would be most welcome! 
-
-*Update: This implementation is most definitely not correct due to the very large discrepancy between the results reported here and the LB results. It also seems to just increase over time no matter what when you train ... *
-
+이제 앞서 소개했었던 IoU Evaluation function을 구현해보겠습니다.
+mean average precision at different intersection over union (IoU) thresholds은 keras엔 기본적으로 없다고 하네요.
 
 ```python
 # Define IoU metric
